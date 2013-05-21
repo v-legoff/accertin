@@ -1,0 +1,17 @@
+Welcome to Accertin
+===================
+
+This project is a fork from Lyntin, or, rather, from Access Lyntin,
+which itself is a fork of Lyntin.  These projects (Access Lyntin
+and Accertin) are designed to allow a user with a screen reader
+to quickly navigate with a Lyntin MUD Client.
+
+Main features are:
+    Use wxPython instead of Tk for a GUI (Access Lyntin)
+    Use the ScreenReaderAPI DLL to send datas to the screen reader
+
+References
+==========
+
+1. Access Lyntin (in French): http://jlpo.free.fr/alyntin/
+2. Lyntin itself: http://lyntin.sourceforge.net/
