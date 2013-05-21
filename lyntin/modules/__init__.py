@@ -22,6 +22,7 @@ their moduledir and specify the moduledir at the command line using the
 import glob, os, sys
 from lyntin import exported, config
 
+module_names = []
 
 def test_for_conflicts(name, module):
   """
@@ -39,7 +40,7 @@ def test_for_conflicts(name, module):
   @type  module: module instance
   """
   if module.__file__ != name + "c" and module.__file__ != name:
-    exported.write_error("possible name conflict: '%s' and '%s'" % 
+    exported.write_error("possible name conflict: '%s' and '%s'" %
                          (name, module.__file__))
 
 
@@ -60,7 +61,7 @@ def get_module_name(filename):
   """
   path, filename = os.path.split(filename)
   return os.path.splitext(filename)[0]
-  
+
 def load_modules():
   """
   Magically dynamically loads all the modules in the modules
@@ -72,6 +73,8 @@ def load_modules():
     path = "." + os.sep
   else:
     path = __file__[:index]
+    if not os.path.exists(path):
+      path = os.path.join(".", "modules")
 
   _module_list = glob.glob( os.path.join(path, "*.py"))
   _module_list.sort()
@@ -84,8 +87,12 @@ def load_modules():
     if mem2.startswith("_"):
       continue
 
-    try:
+    if os.path.exists(path):
       name = "lyntin.modules." + mem2
+    else:
+      name = "modules." + mem2
+
+    try:
       _module = __import__(name)
       _module = sys.modules[name]
 
@@ -94,6 +101,7 @@ def load_modules():
 
       _module.__dict__["lyntin_import"] = 1
       config.lyntinmodules.append(name)
+      module_names.append(name)
     except:
       exported.write_traceback("Module '%s' refuses to load." % name)
 
