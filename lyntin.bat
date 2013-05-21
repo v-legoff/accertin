@@ -1,0 +1,1 @@
+C:\Python24\pythonw.exe start.pyw
